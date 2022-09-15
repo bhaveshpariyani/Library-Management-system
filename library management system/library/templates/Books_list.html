@@ -1,0 +1,42 @@
+{%extends 'base.html'%}
+
+{% block content%}
+<h1>Books</h1>
+
+    <table class="table table-striped table-hover table-bordered"
+    {% for book in Book%}
+        <tr>
+            <td>
+                <a href="{% url 'show-book' book.ISBN%}">{{book}}</a>
+            </td>
+            <td align = "right">
+                <a href="{% url 'update-book' book.ISBN%}" class="btn btn-outline-secondary btn-sm">update</a>
+                <a href="{% url 'delete-book' book.ISBN%}" class="btn btn-outline-danger btn-sm">delete</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+    <br/><br/>
+
+
+    <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    
+ 
+
+{% if Book.has_previous %}
+	<li class="page-item"><a class="page-link" href="?page=1">&laquo First</a></li>
+	<li class="page-item"><a class="page-link" href="?page={{ Book.previous_page_number }}">Previous</a></li>
+{% endif %}
+{% for i in pages %}
+	<li class="page-item"><a class="page-link" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+{% endfor %}
+{% if Book.has_next %}
+	<li class="page-item"><a class="page-link" href="?page={{ Book.next_page_number }}">Next</a></li>
+	<li class="page-item"><a class="page-link" href="?page={{ Book.paginator.num_pages }}">Last &raquo</a></li>
+{% endif %}
+
+ </ul>
+</nav>
+<br/>
+{% endblock %}
